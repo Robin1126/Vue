@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>template模板语句的数据来源</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 指定挂载位置 -->
+    <div id="app"></div>
+    <script>
+        /*
+        模板语句的数据来源:
+            1. 谁可以给模板语句提供数据支持呢? data选项
+            2. data选项的数据类型是什么? Object | Function
+            3. data配置向的专业叫法: Vue实例的数据对象,data实际上是给整个Vue实例对象提供数据来源的
+            4. 对象必须是纯粹的对象(含有0个或者多个的 key/value 对) {key : value, key : value, ...}
+            5. data数据如何导入到template模板语句当中呢?
+                {{}} 是Vue框架自己搞的一套语法,别的框架看不懂,浏览器也不能识别
+                这种语法被叫做模板语法当中的插值语法(胡子语法)
+                怎么用?
+                    {{data的key}} 这个直接载字符串当中插入即可,编译的时候会自动插入值
+                    注意! 两个{{}}之间不能添加空格,必须严格按照要求,而且里面的key也是不能有空格的
+                    data中的对象可以嵌套,对象也可以是数组,数组中的每个元素也可以是一个对象
+        */
+        // 1. 新建Vue实例
+        const myVue = new Vue({
+            template : `<h1>名字:{{name}},出生日期:{{releaseTime}},主角是{{lead.name}},年龄是{{lead.age}}岁
+                其它成员包括:{{familiy[0].name}}({{familiy[0].age}}岁),{{familiy[1].name}}({{familiy[1].age}}岁)
+                {{a.b.c.d.name}}
+                </h1>`,
+            // 为了实现动态显示,需要另一个配置项,data
+            data : {
+                name : "布布",
+                releaseTime : "2023.1.1",
+                lead : {
+                    name : 'zky',
+                    age : '30'
+                },
+                familiy : [
+                    {
+                        name : 'lzj',
+                        age : 40
+                    },
+                    {
+                        name : 'qh',
+                        age : 35
+                    }
+                ],
+                a : {
+                    b : {
+                        c : {
+                            d : {
+                                name : 'hi! I am here!'
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        // 2. 挂载vue
+        myVue.$mount("#app");
+    </script>
+</body>
+</html>

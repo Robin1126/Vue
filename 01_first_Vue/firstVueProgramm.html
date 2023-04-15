@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一个Vue程序</title>
+    <!-- 安装vue -->
+    <!-- 引入vue.js之后，整个上下文就会有Vue这样一个全局变量了 -->
+    <script src="../js/vue.js"></script>
+
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        const myVue = new Vue({
+            template : "<h1>Hello Vue!</h1>"
+        })
+        myVue.$mount('#app')
+    </script>
+</body>
+</html>

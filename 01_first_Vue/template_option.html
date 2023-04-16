@@ -18,6 +18,11 @@
     </div>
 
     <script>
+        // Vue.config是Vue的全局配置对象
+        // productionTip属性是可以设置是否生成生产提示信息的
+        // 默认值：true 改成false可以阻止生成生产提示信息
+        // 也可以直接去vue.js里面将默认值设置成false就肯定可以改动了
+        Vue.config.productionTip = false
         /*
         关于template选项配置：
             1. template后面指定的模板语句，但是模板语句中只能有一个根节点

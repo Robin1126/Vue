@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind指令详解(它时一个负责动态绑定的指令)</title>
+    <!-- 引入Vue框架 -->
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- v-bind是干嘛的 -->
+    <!--
+        v-bind指令详解
+            1. 这个指令的作用？
+                它可以让html标签的某个属性的值产生动态的效果
+
+            2. v-bind指令的语法格式
+             <HTML标签 v-bind:参数="表达式"></HTML标签>
+           
+             3. v-bind指令的编译原理？
+             编译前：<HTML标签 v-bind:参数="表达式"></HTML标签>
+             编译后：<HTML标签 参数="表达式的执行结果"></HTML标签>
+             
+             注意两项：
+             1.v-bind会在编译之后，将参数作为HTML标签的属性名，表达式的执行结果作为属性值
+             2.由于Vue中的表达式是关联data的，因此data中的值改变了，那么html标签中的属性值也会发生改变
+
+             4. 因为v-bind很常用，所以提供了一种简写形式
+                <HTML标签 :参数="表达式"></HTML标签> 直接写冒号就可以了
+            
+            5. 什么时候使用插值语法，什么时候使用指令？
+                凡是标签体当中的，使用插值语法
+                想让HTML标签中的属性动态的，使用指令语法
+
+
+
+    -->
+    <!-- 准备一个容器 -->
+    <div id="app">
+        <!-- 以下代码中xyz是属性名，虽然原则上随便写，但是浏览器不一定支持，因此大部分情况下还是要写成html支持的属性名 -->
+        <!-- msg是变量名 -->
+        <span v-bind:xyz="msg"></span>
+        <!-- 这个msg就是常量，一个字符串 -->
+        <span v-bind:xyz="'msg'"></span>
+
+        <!-- v-bind实战 -->
+        <img src="../img/1.jpg"><br>
+        <img v-bind:src="imgPath"><br>
+        <img :src="imgPath"><br>
+
+        <!-- 一个普通的文本框 -->
+        <input type="text" name="username" value="bubu"><br>
+        <!-- 以下文本框可以让value成为动态的 -->
+        <input type="text" name="username" :value="username"><br>
+
+        <!-- 使用v-bind也可以让超链接是动态的 -->
+        <a :href="url">跳转超链接</a><br>
+    </div>
+
+
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                msg : 'Hello Vue!',
+                imgPath : '../img/1.jpg',
+                username : "yier",
+                url : 'http://www.baidu.com'
+            }
+        })
+    </script>
+
+</body>
+
+</html>

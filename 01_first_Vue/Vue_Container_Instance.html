@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue实例和容器的关系是一夫一妻制</title>
+    <!-- 安装Vue -->
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备容器 -->
+    <div class="app">
+        <h1>{{msg}}</h1>
+    </div>
+
+    <div class="app">
+        <!-- 这个无法被接管 -->
+        <h1>{{msg}}</h1>
+    </div>
+
+    <div id="app2">
+        <h1>{{msg}}</h1>
+    </div>
+
+    <!-- Vue程序 -->
+    <script>
+        /*
+            一个Vue实例可以接管多个容器吗？
+                不能。Vue实例只能接管第一个匹配的容器，即使后面有符合的容器，也不会去接管了
+        */
+       new Vue({
+        // .app表示的是类名是app
+        el : '.app',
+        data : {
+            msg : 'Hello Vue!'
+        }
+       })
+
+       /*
+            两个Vue实例可以管理一个容器吗？
+                不能，当容器被第一个Vue接管以后，就不能被别的Vue接管了
+
+       */
+      new Vue({
+        el : '#app2',
+        data : {
+            msg : 'Hello Vue2!'
+        }
+      })
+      // 这个没办法接管容器
+      new Vue({
+        el : '#app2',
+        data : {
+            msg : 'Hello again!'
+        }
+      })
+    </script>
+</body>
+</html>

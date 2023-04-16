@@ -23,6 +23,8 @@
         // 默认值：true 改成false可以阻止生成生产提示信息
         // 也可以直接去vue.js里面将默认值设置成false就肯定可以改动了
         Vue.config.productionTip = false
+
+        // 使用live Server打开的时候需要一个icon文件，作为页面图标，不然就是个小地球
         /*
         关于template选项配置：
             1. template后面指定的模板语句，但是模板语句中只能有一个根节点
@@ -36,6 +38,8 @@
             Vue中有一个配置项：el
             el配置项和$mount有同样的效果
                 el配置项是告诉Vue结果哪个容器 el : "#app"
+
+        使用浏览器的Vue插件进行调试的时候，如果不好显示出来，最好是把全中文的字符串加个英文字母开头，这是Vue插件的小bug
         */
         new Vue({
            /*  template: `
@@ -47,7 +51,7 @@
 
             data: {
                 msg: "Hello Vue!!",
-                name: "布布和一二的一天"
+                name: "a布布和一二的一天"
             },
             el : '#app'
             // el : document.getElementById('app') 这么写也可以，但是比较麻烦

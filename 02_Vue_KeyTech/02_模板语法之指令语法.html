@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板语法之指令语法</title>
+    <!-- 引入Vue -->
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!--
+        指令语法:
+            1. 什么是指令? 有什么作用?
+            
+            2. Vue框架中的所有指令都以 v- 作为前缀
+            
+            3. 插值是写在标签体当中的,指令写在哪里呢?
+                Vue框架中所有的指令是写在标签里面,以HTML标签的属性存在的
+                如: <span 指令是写在这里的></span>
+                注意! 虽然指令是写在标签里面的属性位置,但是浏览器是看不懂的,必须通过Vue框架编译以后浏览器才能看懂
+           
+            4. 指令的语法规则:
+                指令的一个完整的语法格式:
+                    <HTML标签 v-指令名:参数="表达式"></HTML标签>
+                    这里的表达式就是插值语法中{{}}里面能写什么,这里也就能写什么(4种情况)
+                参数和表达式不是必须的,要看指令的类型
+            
+            5. v-once指令
+                作用: 只渲染元素一次. 随后的重新渲染,元素及其所有的子节点将被视为静态内容被跳过.这可以用于优化更新性能
+                只有第一次打开的时候会被渲染,之后不会被改变
+
+            6. v-if='表达式' 指令
+                作用: 表达式的执行结果需要一个布尔类型的数据:true or false
+                true表示指令所在的标签会被渲染到浏览器,false则不会被渲染到浏览器
+
+
+    -->
+
+
+    <!-- 准备一个容器 -->
+    <div id="app">
+        <!-- 准备好接管的位置 -->
+        <h1>{{msg}}</h1>
+        <h1 v-once>{{msg}}</h1>
+        <!-- 这个跟CSS的display=none不同,不是隐藏,而是直接不渲染了,不出现在网页上面 -->
+        <h1 v-if="a > b">{{msg}}</h1>
+        <h1 v-if="b > a">{{msg}}</h1>
+    </div>
+
+    <!-- Vue程序 -->
+    <script>
+        new Vue({
+            el : '#app',
+            data : {
+                a : 9,
+                b : 8,
+                msg : 'Hello Vue!'
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>template选项配置详解</title>
+</head>
+
+<body>
+    <script src="../js/vue.js"></script>
+    <div id="app">
+        <div>
+            <h1>{{msg}}</h1>
+            <h1>{{name}}</h1>
+        </div>
+    </div>
+
+    <script>
+        /*
+        关于template选项配置：
+            1. template后面指定的模板语句，但是模板语句中只能有一个根节点
+            2. 只要data中的数据发生变化，那么template模板语句就会重新渲染
+            3. template渲染的标签会把原来html中的便签替换，比如下面的div标签会被上面的div app干掉
+            4. 好消息：目前可以不使用template来编写模板语句。这些模板语句可以直接写到html标签中，Vue可以自动找到并编译，当然$mount还是要写的
+            5. 如果直接将模板语句编写到html标签当中，指定的挂在位置就不会被替换了
+        
+        关于$mount("#app")
+            也可以不用上面的写法
+            Vue中有一个配置项：el
+            el配置项和$mount有同样的效果
+                el配置项是告诉Vue结果哪个容器 el : "#app"
+        */
+        new Vue({
+           /*  template: `
+                <div>
+                    <h1>{{msg}}</h1>
+                    <h1>{{name}}</h1>
+                </div>
+            `, */
+
+            data: {
+                msg: "Hello Vue!!",
+                name: "布布和一二的一天"
+            },
+            el : '#app'
+            // el : document.getElementById('app') 这么写也可以，但是比较麻烦
+        })
+        // .$mount("#app")
+    </script>
+</body>
+
+</html>

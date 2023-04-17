@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue数据代理对属性名的要求</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+    </div>
+<!--
+    1. Vue实例不会给以_ 和 $ 开头的属性名做数据代理
+    2. 为什么？
+        因为原理Vue框架有这些开头的内置属性，如果允许代理，那么程序员可能不小心使用了相同的属性值，就使用不了Vue自带的属性，防止冲突
+
+
+
+-->
+    <script>
+        const vm = new Vue({
+            // 这里其实vm给data对象做了数据代理，从而能够取出data对象里面的msg属性值
+           el : '#app',
+           data : {
+                msg : "Hello Vue！",
+                _name : 'bubu',
+                $age : 20
+           }
+        })
+    </script>
+</body>
+</html>

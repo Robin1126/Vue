@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认识vm</title>
+    <!-- 安装Vue -->
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+    </div>
+    <!--
+        1. 通过Vue实例都可以访问哪些属性？（通过vm都可以vm.什么）
+            Vue实例中的属性很多，有的以$开始，有的以_开始
+            所有以 $ 开始的属性， 可以看作是公开的属性，这些属性都是给程序员使用的
+            所有以 _ 开始的属性，可以看作是私有的属性，这些属性是Vue底层框架使用的，一般程序员很少使用
+            通过vm也可以访问Vue实例对象的原型对象上的属性，例如 vm.$delete...
+        
+        2. Vue框架的底层使用了数据代理机制，vm可以直接访问里面的msg，要搞明白数据代理机制，基础知识点 Object.defineProperty()
+    -->
+
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : 'Hello Vue!'
+           }
+        })
+    </script>
+</body>
+</html>

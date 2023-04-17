@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解读Vue框架源代码</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!--
+        Vue框架源代码中关键性代码：
+        1，var data = vm.$options.data;
+            注意：程序执行岛这里的时候，vm上还没有_data属性
+        2. data = vm._data = isFunction(data) ? getData(data, vm) : data || {};
+            程序执行了这个以后，vm对象上面就多了一个_data属性
+            这里可以看到 data后面的可以是一个function，也可以是一个{}
+            如果data是函数，调用getData（data, vm)
+            如果data不是函数，则直接将data返回，给data变量。并且同时将data赋值给vm._data属性了
+        _data属性是干嘛的
+            _data是下划线开始的，说明这个属性是Vue框架底层需要访问的
+            其实vm._data就是我们传进来的data
+            通过vm._data可以直接获取name和age，是不会走set和get方法的
+            正常来说是vm添加一个代理属性去获取_data中的值
+
+        3. 重点函数
+            function isReversed(str) {
+                var c = (str + '').charCodeAt(0);
+                return c === 0x24 || c === 0x5f;
+            }
+            判断字符串是否以_或者$符号开始
+        
+        4. proxy(vm, "_data", key) 代理机制
+
+        5. 重点函数proxy
+        function proxy(target, sourceKey, key) { // target是vm sourceKey是"_data",key是"age"
+            sharedPropertyDefinition.get = function proxyGetter() { get方法
+                return this[sourceKey][key];
+            };
+            sharedPropertyDefinition.set = function proxySetter(val) { setter方法
+                this[sourceKey][key] = val;
+            };
+            Object.defineProperty(target, key, sharedPropertyDefinition); 最后给vm添加age的配置项，也就是get和set方法
+        }
+
+        注意：对于Vue实例vm来说，不仅有_data这个属性，还有$data这个属性
+            _data是Vue内部使用的，可以看作私有的
+            $data是Vue框架对外公开的，可以给我们使用
+    -->
+    <div id="app">
+        <h1>姓名：{{name}}</h1>
+        <h1>年龄：{{age}}</h1>
+    </div>
+
+    <!-- vue代码 -->
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                name: 'bubu',
+                age: 30
+            }
+        })
+
+        // 如果不想走代理的方式读取data，可以通过_data,$data来访问，建议用后者
+        console.log('name = ' + vm.$data.name)
+        console.log('age = ' + vm.$data.age)
+    </script>
+</body>
+
+</html>

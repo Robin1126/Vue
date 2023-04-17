@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初识MVVM分层思想</title>
+    <script src="../js/vue.js"></script>
+    <!--
+        1. MVVM是什么？
+            M：Model
+            V ：View
+            VM ：ViewModel。核心部分。
+            MVVM是目前前端开发当中非常流行的开发思想。一种架构模式
+            目前前端大部分都实现了MVVM 例如 Vue，React
+        
+        2. Vue基本上也是符合MVVM模型的，受到它的启发。
+
+        3，MVVM倡导Model和View进行分离，为什么？
+            假如Model和View不分离，使用原生的js代码写项目：
+                如果数据发生任意的改动，那么我们就要编写大量的js代码来操作DOM元素
+            MVVM可以大幅提升操作效率，VM核心干了所有的劳动，使得V和M可以联动更新
+            我们再也不需要编写js代码去操作DOM了
+            底层就是Vue通过数据绑定实现的，一个是Data Bindings 一个是 DOM Listeners
+
+    -->
+</head>
+<body>
+    <!-- 准备容器 -->
+    <!-- View V -->
+    <div id="app">
+        姓名：<input type="text" v-model="name"><br>
+    </div>
+
+    <script>
+        // ViewModel VM
+        const VM = new Vue({
+            el : '#app',
+            data : {
+                // Model M
+                name : "lisi"
+            }
+        })
+    </script>
+
+    
+</body>
+</html>

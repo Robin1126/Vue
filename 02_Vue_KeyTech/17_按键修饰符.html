@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>按键修饰符</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        9个比较常用的按键修饰符
+            .enter 回车
+            .tab table键 无法触发keyup事件，因为table有自动切换的效果，只能触发keydown
+            .delete 删除，退格键
+            .esc esc键
+            .space 空格键
+            .up 上箭头
+            .down 下箭头
+            .left 左箭头
+            .right 右箭头
+
+        如何获取某个键的按键修饰符？
+            第一步：通过event.key获取这个键的真实名字
+            第二步：将这个真实名字以kebab-case风格进行命名
+                PageDown是真实名字，经过命名之后是page-down 小写并且-相连
+        
+        按键修饰符是可以自定义的
+            通过Vue的全局配置对象config来进行按键修饰符的自定义
+            语法规则：
+                Vue.config.keyCodes.按键修饰符的名字 = 键值
+
+        系统修饰键
+            .ctrl
+            .alt
+            .shift
+            .meta windows键/command键 mac上
+
+            对于keydown：只要按下ctrl，keydown事件就会触发
+            对于keyup：需要按下ctrl，并且加上按下组合键，然后松开组合键之后，事件才能触发,组合键就是随便多按一个键
+     -->
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- keyup是键盘弹起，keydown是按下不弹起,.enter设定触发，.13也可以 -->
+        输入信息：<input type="text" @keyup.enter="getInfo"><br>
+        PageDown按键：<input type="text" @keyup.page-down="getInfo"><br>
+        PageUp按键：<input type="text" @keyup.page-up="getInfo"><br>
+        <!-- keydown不会读取到enter keyup会读取到enter -->
+        自定义回车huiche : <input type="text" @keydown.huiche="getInfo"><br>
+        ctrl按键(keyup):<input type="text" @keyup.ctrl="getInfo"><br>
+        <!-- 限定组合键只能是 i -->
+        ctrl按键(keyup) 组合键i:<input type="text" @keyup.ctrl.i="getInfo"><br>
+    </div>
+    <script>
+
+        // 自定义按键修饰符名字和对应的键值
+        Vue.config.keyCodes.huiche = 13;
+
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : '按键修饰符'
+           },
+           methods : {
+                getInfo(event){
+                    // console.log("getInfo execute!")
+                    // 当用户输入回车键，获取用户输入的信息，event参数可以获取输入的键值
+                    // if(event.keyCode === 13) {
+                        // target是目标标签，value是获取其中的value属性
+                        console.log(event.target.value);
+                        // console.log(event.key)
+                    // }
+                }
+           }
+        })
+    </script>
+</body>
+</html>

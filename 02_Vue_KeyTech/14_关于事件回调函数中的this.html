@@ -24,6 +24,8 @@
                 msg : '关于事件回调函数中的this',
                 counter : 0
            },
+           // 1. methods对象中的方法可以直接用vm访问吗？可以
+           // 2. methods对象中的方法有没有做数据代理？没有
            methods : {
                 add(){
                     // 在这里操作counter变量

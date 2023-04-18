@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>methods实现原理</title>
+    <!-- 引入myvue -->
+    <script src="../js/myvue.js"></script>
+</head>
+<body>
+    <script>
+        const vm = new Vue({
+            data : {
+                msg : 'helloVue!'
+            },
+            methods : {
+                sayHi(){
+                    alert("hi!")
+                },
+                sayHello(){
+                    alert("hello!")
+                    console.log(this === vm) // true 非箭头函数的this就是vm对象
+                },
+                sayWhat : () => {
+                    console.log(this === vm) // false 箭头函数的this是继承父域的
+                }
+            }
+        })
+    </script>
+</body>
+</html>

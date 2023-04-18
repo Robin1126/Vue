@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue的事件绑定</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        Vue事件处理：
+            1. 指令的语法格式
+                <标签 v-指令名：参数名="表达式">{{插值语法}}</标签>
+                表达式可以写：常量，JS表达式，Vue实例管理的xxx
+            
+            2. Vue当中完成事件绑定需要哪个指令？
+                v-on指令
+                语法格式
+                    v-on：事件名="表达式"
+                例如：
+                    v-on: click="表达式" 表示当发生鼠标单击事件后，执行表达式
+                    v-on: keydown="表达式" 表示当键盘按键按下以后，执行表达式
+            
+            3. Vue当中，所有事件关联的回调函数，需要在Vue实例的配置项methods当中进行定义
+                methods中可以定义多个函数
+            
+            4. v-on: 可以简写为@
+                v-on:click="表达式" 可简写为 @click="表达式" 其它类似的事件也一样
+                绑定的函数如果不需要传入参数，那么小括号可以省略
+            
+            5. Vue在调用回调函数的时候，会自动给回调函数传递一个对象，这个对象是当前发生的事件对象
+            
+            6. 绑定的回调函数，如果函数调用时候不需要传递任何参数，可以不写小括号
+
+            7. 在绑定回调函数的时候，可以给回调函数的参数位置上写上 $event 占位符，Vue会自动传入事件参数对象
+
+     -->
+    <!--容器-->
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <button v-on:click="sayHello()">hello</button>
+        <button onclick="alert('hello')">hello1</button>
+        <button @click="sayHello()">hello2</button>
+        <button @click="sayWhat">hello3</button>
+        <!-- $event 在参数作为占位符，可以保证Vue给函数传入一个事件对象 -->
+        <button @click="sayHi('bubu',$event)">hi</button>
+    </div>
+    <!-- 使用JavaScript原生代码进行事件绑定 -->
+    <!-- 使用Vue完成事件绑定 -->
+    <!-- alert不被Vue认识，自定义的函数也不行 -->
+    <!-- <button v-on:click="alert('hello')">hello</button> -->
+
+    <!-- Vue代码 -->
+    <script>
+        const vm = new Vue({
+            
+           el : '#app',
+           data : {
+                msg : "Vue事件的绑定"
+           },
+           methods : {
+                // 回调函数
+                // 注意！要想下面的函数生效，sayHello必须在vm管理的html标签里面，这里就是div app里面
+                sayHello : function(){
+                    alert('hello')
+                },
+                // 可以直接写 sayHello(){...}
+                sayWhat(){
+                    alert('sayWhat')
+                },
+                sayHi(name,a) {
+                    console.log(name,a)
+                    // 获取事件的标签
+                    console.log(a.target)
+                    // 获取事件的按钮文本
+                    console.log(a.target.innerText)
+                }
+           }
+        })
+    </script>
+    
+</body>
+</html>

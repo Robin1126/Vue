@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反转字符串计算属性实现</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        计算属性：
+            1. 什么是计算属性？
+                使用vue的原有属性，经过运算，得到全新的属性
+                Vue的原有属性：data对象当中的属性，可以叫做原有属性
+                全新的属性：生成了一个新的属性，和原来data中的属性无关了，新的属性有自己的属性名和属性值
+
+            2. 计算属性怎么使用？
+                语法格式：需要新的配置项，computed
+                    computed ：{
+                        计算属性1 ：{
+                            // 2个调用时机
+                            // 1.第一次读取计算属性1调用get
+                            // 2.关联的原有属性的值发生改变也会调用get
+                            get(){}
+                            // 修改计算属性1调用set
+                            set(){}
+                        },
+                        计算属性2 ：{}
+                    }
+
+            3. 计算属性的作用？
+                代码得到复用
+                代码更加容易维护
+                代码的执行效率变高了
+
+     -->
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 使用v-model双向绑定 -->
+        输入字符串：<input type="text" v-model="info"><br>
+        反转后的字符串：{{reverseInfo}}<br>
+        <!-- 只调用了一次，其它的都是缓存读取出来的 -->
+        <!-- 
+        {{hehe}}
+        {{hehe}}
+        {{hehe}} 
+        -->
+
+    </div>
+    <!-- Vue程序 -->
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: "反转字符串",
+                info: ''
+            },
+            methods: {
+                // 反转信息的方法  
+                reverseString() {
+                    return this.info.split('').reverse().join('');
+                }
+            },
+            computed: {
+                // 计算属性不能直接用_data来直接访问，但是实际上都做了数据代理
+                // 计算属性因为走缓存，因此效率较高
+                // this也是vm对象，但是箭头函数中的this不是vm对象，是window
+                hehe: {
+
+                    get() {
+                        console.log("getter方法调用了")
+                        return 'haha' + this.info
+                    },
+                    set(val) {
+                        console.log('setter方法调用了')
+
+                    }
+                },
+                reverseInfo: {
+                    get() {
+                        return this.info.split('').reverse().join('');
+                    },
+                    set(val) {
+
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于事件回调函数中的this</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <h1>计数器：{{counter}}</h1>
+        <button @click="counter++">点我喜加一</button>
+        <button @click="add">点我喜加一</button>
+        <button @click="add1">点我喜加一(箭头函数)</button>
+
+    </div>
+    <!-- Vue代码 -->
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : '关于事件回调函数中的this',
+                counter : 0
+           },
+           methods : {
+                add(){
+                    // 在这里操作counter变量
+                    // this是Vue实例
+                    // 利用数据代理可以通过this实例访问counter
+                    this.counter++;
+                },
+                add1: () => {
+                    // 箭头函数中没有this，箭头函数中的this是从父级作用域当中继承来的
+                    // 对于这个函数来说，父级作用域是全局作用域window
+                    // 因此不推荐使用箭头函数
+                    this.counter++;
+                }
+           }
+        })
+    </script>
+</body>
+</html>

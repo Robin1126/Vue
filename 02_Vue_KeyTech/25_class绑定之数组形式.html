@@ -26,7 +26,7 @@
 
 <body>
     <div id="app">
-        <!-- 使用场景：要绑定多个样式，并且名字不确定 -->
+        <!-- 使用场景：要绑定多个样式，并且名字不确定，样式可以在vue的配置当中动态的增减 -->
         <h1>{{msg}}</h1>
         <!-- 静态写法 -->
         <div class="static active text-danger">{{msg}}</div>
@@ -36,6 +36,7 @@
         <br>
         <div class="static" :class="[c1, c2]">{{msg}}</div>
         <br>
+        <!-- 采用数组的形式来绑定class -->
         <div class="static" :class="classArray">{{msg}}</div>
 
 

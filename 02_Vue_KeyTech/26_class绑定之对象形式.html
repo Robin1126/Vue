@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class绑定之对象形式</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .static {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+        }
+
+        .active {
+            background-color: green;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 动态写法 -->
+        <!-- 适用条件：样式的个数是固定的，样式的名字也是固定的，但是需要确定用还是不用某个样式 -->
+        <div class="static" :class="classObj"></div>
+    </div>
+
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : 'class绑定之对象形式',
+                classObj : {
+                    // 这里的单引号不能省略，因为是对象的属性
+                    // 其中的true/false表示是否引入这种格式
+                    'active' : true,
+                    'text-danger' : false
+                }
+           }
+        })
+    </script>
+    
+</body>
+</html>

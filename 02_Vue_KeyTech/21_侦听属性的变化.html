@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>侦听属性的变化</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        数字：<input type="text" v-model="number"><br>
+        数字：<input type="text" v-model="a.b"><br>
+        数字(后期添加监视):<input type="text" v-model="number2"><br>
+    </div>
+    <!-- 侦听属性需要watch配置项 -->
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                number2 : 0,
+                msg : '侦听属性的变化',
+                number : 0,
+                // a对象保存的是内存地址
+                a : {
+                    // 要求监视b
+                    b : 0
+                }
+           },
+           computed : {
+                hehe(){
+                    return 'haha' + this.number;
+                }
+           },
+           watch : {             
+                // 可以监视多个属性
+                // 监视什么属性，直接把属性名写在这里即可
+                // 可以监视vue原有的属性，也可以监视计算属性
+            /*     number : {
+                    // immediate属性是表示初始化的时候调用handler与否，默认不调用,一开始的oldValue是undefined
+                    immediate : true,
+                    // handler方法写死
+                    // handler方法在被监视属性发生变化的时候，handler就会自动调用一次
+                    // newValue是新的值，oldValue是旧的值
+                    // this是当前的vue实例，箭头函数的this是window对象，因此不建议使用箭头函数
+                    handler(newValue, oldValue){
+                         console.log(newValue);
+                         console.log(oldValue);
+                    }
+                }, */
+                hehe : {
+                    handler(newValue, oldValue){
+                        console.log(newValue,oldValue)
+                    }
+                },
+                // 想要监视data中object中的属性，比如这里的a对象中的b属性
+                // 如果监视的属性具有多级结构，要添加单引号'a,b'
+                // 如果向监视所有的子属性，需要启用深度监视
+                'a.b' : {
+                    // deep ：true，使用深度监视，监视分级下面所有的子属性
+                    handler(newValue, oldValue) {
+                        console.log('@')
+                    }
+                },
+
+                // 当只有handler回调函数的时候，可以使用简写形式
+
+                number(newValue, oldValue) {
+                    console.log(newValue, oldValue)
+                }
+           }
+        })       
+       
+        // 如何后期添加监视？调用Vue相关的API即可
+        // 语法：vm.$watch('被监视的属性名',{里面写配置项})
+        // 这是在vm外面定义的
+ /*        vm.$watch('number2',{
+            immediate : true,
+            deep : true,
+            handler(newValue, oldValue){
+                console.log(newValue, oldValue)
+            }
+        }) */
+
+        // 后期监视的简写形式
+        vm.$watch('number2', function(newValue, oldValue){
+            console.log(newValue, oldValue);
+        })
+    </script>
+
+    
+</body>
+</html>

@@ -75,16 +75,21 @@
                         return 'haha' + this.info
                     },
                     set(val) {
-                        console.log('setter方法调用了')
+                        // console.log('setter方法调用了')
+                        // 计算属性的值变不变在于原来的属性的值，因此修改的是data中的原有属性
+                        this.info = val;
 
                     }
                 },
+                // set不需要的适合可以简写
+                // reverseInfo(){...} 就表示只有get方法
                 reverseInfo: {
                     get() {
                         return this.info.split('').reverse().join('');
                     },
                     set(val) {
-
+                        // 一般set方法很少用，因为一般计算属性是用来展示的
+                        this.info = val.split('').reverse().join('');
                     }
                 }
             }

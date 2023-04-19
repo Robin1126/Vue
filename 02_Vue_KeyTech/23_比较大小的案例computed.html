@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>比较大小的案例computed实现</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        第一个数字：<input type="number" v-model="number1"><br>
+        第二个数字：<input type="number" v-model="number2"><br>
+        <!-- 直接调用computed里面calculate的get方法 -->
+        比较的结果：<span>{{calculate}}</span>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: "比较大小的案例computed实现",
+                number1: 0,
+                number2: 0,
+            },
+            computed: {
+                calculate() {
+                    let val = this.number1 - this.number2;
+                    if (val == 0) {
+                        return this.number1 + " = " + this.number2;
+                    } else if (val > 0) {
+                        return this.number1 + " > " + this.number2;
+                    } else {
+                        return this.number1 + " < " + this.number2;
+                    }
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

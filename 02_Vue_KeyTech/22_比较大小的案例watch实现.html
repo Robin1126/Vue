@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>比较大小的案例watch实现</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- watch 和 computed 一定程度上可以互相取代 -->
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- type number -->
+        第一个数字：<input type="number" v-model="number1"><br>
+        第二个数字：<input type="number" v-model="number2"><br>
+        比较的结果：<span>{{result}}</span>
+    </div>
+
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : '比较大小的案例',
+                number1 : 0,
+                number2 : 0,
+                result : ''
+
+           },
+           watch : {
+            // 监视number1
+            number1 : {
+                immediate : true,
+                // 只需要newValue
+                handler(val) {
+                    // console.log(val)
+                    let result = val - this.number2
+                    if(result == 0) {
+                        this.result = val + ' = ' + this.number2;
+                    }else if(result > 0){
+                        this.result = val + ' > ' + this.number2;
+                    }else {
+                        this.result = val + ' < ' + this.number2;
+                    }
+                }
+            },
+            // 监视number2
+            number2 : {
+                immediate : true,
+                handler(val) {
+                    // console.log(val)
+                    let result = val - this.number1
+                    if(result == 0) {
+                        this.result = this.number1 + ' = ' + val;
+                    }else if(result > 0){
+                        this.result = this.number1 + ' < ' + val;
+                    }else {
+                        this.result = this.number1 + ' > ' + val;
+                    }
+                }
+            }
+           }
+        })
+    </script>
+    
+</body>
+</html>

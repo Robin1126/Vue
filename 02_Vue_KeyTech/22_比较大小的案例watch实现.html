@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>比较大小的案例watch实现</title>
     <script src="../js/vue.js"></script>
 </head>
+
 <body>
     <!-- watch 和 computed 一定程度上可以互相取代 -->
     <div id="app">
@@ -19,49 +21,61 @@
 
     <script>
         const vm = new Vue({
-           el : '#app',
-           data : {
-                msg : '比较大小的案例',
-                number1 : 0,
-                number2 : 0,
-                result : ''
+            el: '#app',
+            data: {
+                msg: '比较大小的案例',
+                number1: 0,
+                number2: 0,
+                result: ''
 
-           },
-           watch : {
-            // 监视number1
-            number1 : {
-                immediate : true,
-                // 只需要newValue
-                handler(val) {
-                    // console.log(val)
-                    let result = val - this.number2
-                    if(result == 0) {
-                        this.result = val + ' = ' + this.number2;
-                    }else if(result > 0){
-                        this.result = val + ' > ' + this.number2;
-                    }else {
-                        this.result = val + ' < ' + this.number2;
-                    }
-                }
             },
-            // 监视number2
-            number2 : {
-                immediate : true,
-                handler(val) {
-                    // console.log(val)
-                    let result = val - this.number1
-                    if(result == 0) {
-                        this.result = this.number1 + ' = ' + val;
-                    }else if(result > 0){
-                        this.result = this.number1 + ' < ' + val;
-                    }else {
-                        this.result = this.number1 + ' > ' + val;
+            watch: {
+                // 监视number1
+                number1: {
+                    immediate: true,
+                    // 只需要newValue
+                    handler(val) {
+                        // console.log(val)
+                        let result = val - this.number2
+                        setTimeout(() => {
+                            // 这里箭头函数的this代表的是vm实例
+                            // 箭头函数是JavaScript引擎调用的
+                            // 因为箭头函数没有this，只能往上一级找this，这里的this上一级是number1，是vue实例的属性
+                            // 但是如果使用普通函数，这里this就是window
+                            if (result == 0) {
+                                this.result = val + ' = ' + this.number2;
+                            } else if (result > 0) {
+                                this.result = val + ' > ' + this.number2;
+                            } else {
+                                this.result = val + ' < ' + this.number2;
+                            }
+                        }, 1000 * 3)
+
+                    }
+                },
+                // 监视number2
+                number2: {
+                    immediate: true,
+                    handler(val) {
+                        // console.log(val)
+                        let result = val - this.number1
+                        // setTimeout函数是JavaScript自带的，因此使用箭头函数
+                        setTimeout(() => {
+                            if (result == 0) {
+                                this.result = this.number1 + ' = ' + val;
+                            } else if (result > 0) {
+                                this.result = this.number1 + ' < ' + val;
+                            } else {
+                                this.result = this.number1 + ' > ' + val;
+                            }
+                        }, 1000 * 3)
+
                     }
                 }
             }
-           }
         })
     </script>
-    
+
 </body>
+
 </html>

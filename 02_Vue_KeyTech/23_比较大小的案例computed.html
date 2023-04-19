@@ -10,6 +10,13 @@
 </head>
 
 <body>
+    <!-- 
+        1. computed和watch都可以完成某个功能的时候，优先使用computed
+        2. 有一种情况必须使用watch computed无法完成，这种就是有异步的需求，因为是JavaScript在这种情况下调用timeout
+        3. 什么时候用普通函数，什么时候用箭头函数
+            看这个函数是否属于vue管理，vue管理的用普通函数，不是vue管理的使用箭头函数
+
+     -->
     <div id="app">
         <h1>{{msg}}</h1>
         第一个数字：<input type="number" v-model="number1"><br>
@@ -28,6 +35,7 @@
             },
             computed: {
                 calculate() {
+                    // 计算属性的简写形式
                     let val = this.number1 - this.number2;
                     if (val == 0) {
                         return this.number1 + " = " + this.number2;

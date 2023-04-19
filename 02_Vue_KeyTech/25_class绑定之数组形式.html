@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class绑定之数组形式</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .static {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+        }
+
+        .active {
+            background-color: green;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 使用场景：要绑定多个样式，并且名字不确定 -->
+        <h1>{{msg}}</h1>
+        <!-- 静态写法 -->
+        <div class="static active text-danger">{{msg}}</div>
+        <br>
+        <!-- 动态写法，动静结合，上面的改成数组带入 -->
+        <div class="static" :class="['active','text-danger']">{{msg}}</div>
+        <br>
+        <div class="static" :class="[c1, c2]">{{msg}}</div>
+        <br>
+        <div class="static" :class="classArray">{{msg}}</div>
+
+
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: "class绑定之数组形式",
+                c1: "active",
+                c2: "text-danger",
+                classArray : ['active', 'text-danger']
+            }
+        })
+    </script>
+</body>
+
+</html>

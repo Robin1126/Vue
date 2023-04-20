@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>条件渲染</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 条件为true就渲染岛页面上面，false就不加载，当然里面也可以写布尔表达式 -->
+        <div v-if="true">{{msg}}</div>
+        <hr>
+
+        <!-- 有一个按钮，点一下加一，奇数显示1号图片，偶数显示2号图片 -->
+        <button @click="counter++">点我加1</button>
+        <button @click="counter = 0">归零</button>
+        <h3>{{counter}}</h3>
+        <br>
+        <img :src="imgPath1" v-if="counter % 2 == 1">
+        <img :src="imgPath2" v-else>
+        <!-- 为了提高效率可以使用v-else指令,但是它们之间不能断开 -->
+
+        <br><br>
+
+        <!-- 输入温度，显示寒冷，凉爽，炎热 -->
+        温度：<input type="number" v-model="temperature">°C <br><br>
+        <!-- 使用if else-if else, 同样中间也不能断开 -->
+        天气：<span v-if="temperature < 10">寒冷</span>
+        <span v-else-if="temperature <= 26">凉爽</span>
+        <span v-else>炎热</span>
+        <!-- v-show 是修改元素CSS的样式display来表示与否 -->
+
+        <!-- 什么时候选择v-if和v-show
+            1. 如果一个元素频繁在页面上隐藏和显示，建议使用v-show,因为v-if消耗大
+            2. v-if的优点是页面渲染速度快
+        -->
+
+        <!-- template起到占位的作用，不会真正的出现在页面上，也不会影响页面的结构 -->
+        <template v-if="counter === 30">
+            <input type="text">
+            <input type="checkbox">
+        </template>
+         
+    </div>
+
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : '条件渲染',
+                counter : 0,
+                imgPath1 : '../img/1.jpg',
+                imgPath2 : '../img/2.jpg',
+                temperature : 0
+           }
+        })
+    </script>
+    
+</body>
+</html>

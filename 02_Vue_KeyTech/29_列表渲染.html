@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,36 @@
     <title>列表渲染</title>
     <script src="../js/vue.js"></script>
 </head>
+
 <body>
     <div id="app">
         <h1>{{msg}}</h1>
+
+        <h2>遍历对象的属性</h2>
+        <ul>
+            <!-- 前面是属性的值，后面是属性的名字 -->
+            <li v-for="(value,property) of users">
+                属性值：{{value}}, 属性名：{{property}}
+            </li>
+        </ul>
+
+        <h2>遍历字符串</h2>
+        <ul>
+            <!-- 遍历字符串,前面是下标上的值，后面是下标 -->
+            <li v-for="(char,index) in str">
+                字符：{{char}},下标：{{index}}
+            </li>
+        </ul>
+
+        <h2>遍历指定的次数</h2>
+        <ul>
+            <!-- 从1开始到counter位置，以及它们对应的下标 -->
+            <li v-for="(num,index) of counter">
+                {{x}},{{y}}
+            </li>
+        </ul>
+
+        <h2>遍历数组</h2>
         <ul>
             <li v-for="name in names">
                 {{name}}
@@ -21,12 +49,14 @@
                 {{name}}--{{index}}
             </li>
         </ul>
-        
+
         <ul>
             <li v-for="(vip,index) in vips">
                 会员编号{{vip.id}},会员姓名：{{vip.name}}，会员年龄：{{vip.age}}
             </li>
         </ul>
+
+
 
         <!-- 利用v-for制表 -->
         <table border="1px" color="black">
@@ -47,41 +77,49 @@
             </tr>
         </table>
     </div>
-    
+
     <ul>
         <li>今日周六</li>
         <li>休息一日</li>
         <li>明日再战</li>
     </ul>
-    
 
-     <!-- v-for注意事项
+
+    <!-- v-for注意事项
             1. v-for要写在循环的项上面
             2. v-for的语法规则：
                 v-for="(变量名，下标) in 数组"
                 加个括号更好看清楚
         -->
-        <!-- 
+    <!-- 
             一定要注意，vue对象必须在对应的id里面才可以！！
          -->
     <script>
         const vm = new Vue({
-           el : '#app',
-           data : {
-                msg : '条件渲染',
-                names : [
-                    'jack','lucy','james'
+            el: '#app',
+            data: {
+                msg: '条件渲染',
+                names: [
+                    'jack', 'lucy', 'james'
                 ],
                 // 如果是对象的数组怎么取出来
                 // 拿到之后.属性就可以了
-                vips : [
-                    {id:'1111',name:'yier',age:'30'},
-                    {id:'2222',name:'bubu',age:'30'},
-                    {id:'3333',name:'lbb',age:'30'}
-                ]
-           }
+                vips: [
+                    { id: '1111', name: 'yier', age: '30' },
+                    { id: '2222', name: 'bubu', age: '30' },
+                    { id: '3333', name: 'lbb', age: '30' }
+                ],
+                users: {
+                    id: '111',
+                    name: '张三',
+                    gender: '男'
+                },
+                str: 'tu-ilmenau',
+                counter: 10
+            }
         })
     </script>
-    
+
 </body>
+
 </html>

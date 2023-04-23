@@ -10,18 +10,75 @@
 <body>
     <div id="app">
         <h1>{{msg}}</h1>
+        <ul>
+            <li v-for="name in names">
+                {{name}}
+            </li>
+        </ul>
+
+        <ul>
+            <li v-for="name, index in names">
+                {{name}}--{{index}}
+            </li>
+        </ul>
+        
+        <ul>
+            <li v-for="(vip,index) in vips">
+                会员编号{{vip.id}},会员姓名：{{vip.name}}，会员年龄：{{vip.age}}
+            </li>
+        </ul>
+
+        <!-- 利用v-for制表 -->
+        <table border="1px" color="black">
+            <tr>
+                <th>序号</th>
+                <th>id</th>
+                <th>名字</th>
+                <th>年龄</th>
+                <th>选择</th>
+            </tr>
+
+            <tr v-for="(vip,index) in vips">
+                <td>{{index+1}}</td>
+                <td>{{vip.id}}</td>
+                <td>{{vip.name}}</td>
+                <td>{{vip.age}}</td>
+                <td><input type="checkbox"></td>
+            </tr>
+        </table>
     </div>
+    
     <ul>
         <li>今日周六</li>
         <li>休息一日</li>
         <li>明日再战</li>
     </ul>
+    
 
+     <!-- v-for注意事项
+            1. v-for要写在循环的项上面
+            2. v-for的语法规则：
+                v-for="(变量名，下标) in 数组"
+                加个括号更好看清楚
+        -->
+        <!-- 
+            一定要注意，vue对象必须在对应的id里面才可以！！
+         -->
     <script>
         const vm = new Vue({
            el : '#app',
            data : {
-                msg : '列表渲染'
+                msg : '条件渲染',
+                names : [
+                    'jack','lucy','james'
+                ],
+                // 如果是对象的数组怎么取出来
+                // 拿到之后.属性就可以了
+                vips : [
+                    {id:'1111',name:'yier',age:'30'},
+                    {id:'2222',name:'bubu',age:'30'},
+                    {id:'3333',name:'lbb',age:'30'}
+                ]
            }
         })
     </script>

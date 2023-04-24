@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>虚拟dom和diff算法</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        /* 行和列的样式 */
+        th,td{border: 1px solid black;}
+    </style>
+</head>     
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <table>
+            <tr>
+                <th>序号</th>
+                <th>英雄</th>
+                <th>能量值</th>
+                <th>选择</th>
+            </tr>
+            <tr v-for="(hero,index) in heros">
+                <td>{{index+1}}</td>
+                <td>{{hero.name}}</td>
+                <td>{{hero.power}}</td>
+                <td><input type="checkbox"></td>
+            </tr>
+        </table>
+    </div>
+    
+
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : "虚拟dom与diff算法",
+                heros : [
+                    {id:'101',name:'艾格文',power:10000},
+                    {id:'101',name:'麦迪文',power:9000},
+                    {id:'101',name:'古尔丹',power:8500},
+                    {id:'101',name:'萨尔',power:7000}
+                ]
+           }
+        })
+    </script>
+</body>
+</html>

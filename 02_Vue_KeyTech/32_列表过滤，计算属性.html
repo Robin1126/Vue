@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表过滤,计算属性实现</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        th,
+        td {
+            border: 1px solid black
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- placeholder是如果文本框为空，则显示这些关键字 -->
+        <!-- 要想实现搜索，可以是使用计算属性或者watch，首先将文本框的内容和变量进行绑定 -->
+        <input type="text" placeholder="请输入搜索关键字" v-model="keyword">
+        <table>
+            <tr>
+                <th>序号</th>
+                <th>英雄</th>
+                <th>能量值</th>
+                <th>选择</th>
+            </tr>
+            <tr v-for="(hero,index) in filteredHeros" :key="hero.id">
+                <td>{{index+1}}</td>
+                <td>{{hero.name}}</td>
+                <td>{{hero.power}}</td>
+                <td><input type="checkbox"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                keyword: '',
+                msg: "列表过滤,计算属性实现",
+                heros: [
+                    { id: '101', name: '艾格文', power: 10000 },
+                    { id: '102', name: '麦迪文', power: 9000 },
+                    { id: '103', name: '古尔丹', power: 8500 },
+                    { id: '104', name: '萨尔', power: 7000 }
+                ]
+            },
+            // 定义计算属性
+            computed : {
+                // 简写get属性
+                filteredHeros(){
+                    // 执行过滤
+                    // 直接返回执行的结果即可，写在get方法里面，也就是get方法调用过滤filter
+                    return this.heros.filter((hero) => {
+                        // 注意！任何字符串都带有空串
+                        return hero.name.indexOf(this.keyword) >= 0
+                    }
+                    )
+                }
+
+            }
+        })
+
+        // 回顾filter
+        let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+        // filter方法不会破坏原来数组的结构，只会生成新的数组
+        let newArr = arr.filter((num) => {
+            // 过滤条件
+            return num > 5
+        })
+    </script>
+
+</body>
+
+</html>

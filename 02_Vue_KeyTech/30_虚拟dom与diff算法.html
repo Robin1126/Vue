@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +9,13 @@
     <script src="../js/vue.js"></script>
     <style>
         /* 行和列的样式 */
-        th,td{border: 1px solid black;}
+        th,
+        td {
+            border: 1px solid black;
+        }
     </style>
-</head>     
+</head>
+
 <body>
     <div id="app">
         <h1>{{msg}}</h1>
@@ -21,29 +26,60 @@
                 <th>能量值</th>
                 <th>选择</th>
             </tr>
-            <tr v-for="(hero,index) in heros">
+            <!-- 
+                v-for所在的标签当中，含有一个重要的属性 ：key
+                如果没有指定key，会默认拿index作为key
+                这个key是这个dom元素的身份证号/唯一表示
+                比如第一行相当于 tr后面有一个 key='0'
+                当我们改动数据的时候，内存中会形成新的虚拟DOM，然后和旧的DOM通过diff算法进行比对，如果比对发生了不同，那就只对不同的地方进行渲染，其它的地方进行复用
+
+                分析：如果在v-for中不指定:key，采用index作为默认的key会有什么问题？
+                    1. 效率低
+                    2. 产生错乱。因为真实DOM比如checkbox发生变化的时候，对应的虚拟DOM并没有变化，比如当插入新的行的时候，checkbox还是没有变化，直接复用导致新插入的行checkbox打勾，但是原来应该打勾的行没有打勾
+                    （非末尾元素添加）
+                        unshift添加的时候，index=0，除了名字和能量值不一样之外，checkbox没有改变，直接复用，导致新加入的英雄打勾
+
+                解决问题：使用英雄的id来作为key，也就是数据库的主键作为key,这样一上来的时候发现key不一样，直接渲染新的行
+
+            -->
+            <tr v-for="(hero,index) in heros" :key="hero.id">
                 <td>{{index+1}}</td>
                 <td>{{hero.name}}</td>
                 <td>{{hero.power}}</td>
                 <td><input type="checkbox"></td>
             </tr>
         </table>
-    </div>
-    
 
+        <button @click="add">添加英雄麦文</button>
+    </div>
+
+    <!-- 
+        Vue框架是采用了虚拟DOM机制+diff算法，来提高执行效率的
+        虚拟DOM：在内存当中的DOM对象
+        diff算法：这是一种能供快速找出两个事务之间不同的算法
+     -->
     <script>
         const vm = new Vue({
-           el : '#app',
-           data : {
-                msg : "虚拟dom与diff算法",
-                heros : [
-                    {id:'101',name:'艾格文',power:10000},
-                    {id:'101',name:'麦迪文',power:9000},
-                    {id:'101',name:'古尔丹',power:8500},
-                    {id:'101',name:'萨尔',power:7000}
+            el: '#app',
+            data: {
+                msg: "虚拟dom与diff算法",
+                heros: [
+                    { id: '101', name: '艾格文', power: 10000 },
+                    { id: '102', name: '麦迪文', power: 9000 },
+                    { id: '103', name: '古尔丹', power: 8500 },
+                    { id: '104', name: '萨尔', power: 7000 }
                 ]
-           }
+            },
+            methods : {
+                add() {
+                    // 添加元素 unshift
+                    // 添加到第一行，默认添加到key：index=0
+                    // push是添加到末尾
+                    this.heros.unshift({id:'105',name:'麦文',power:6500})
+                }
+            }
         })
     </script>
 </body>
+
 </html>

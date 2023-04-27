@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>自定义指令</h1>
+        <div v-text="msg"></div>
+        <!-- 现在需要自定义一个指令，输出msg到对应标签内，并且用红色字体显示 -->
+        <div v-text-danger="msg"></div>
+        用户名：<input type="text" :value="username">
+        <!-- 
+            需要一个指令，可以和v-bind指令完成相同的功能，并且设置该元素的父级元素的背景色为蓝色
+         -->
+         <div>
+            用户名：<input type="text" v-bind-pink="username">
+            <br>
+            外号：<input type="text" v-text-yellow="name">
+         </div>
+    </div>
+
+    <div id="app2">
+        外号 ：<input type="text" v-text-yellow="name">
+        <div v-bind-blue="name"></div>
+    </div>
+
+    <script>
+        // 定义全局的自定义指令，函数式
+        Vue.directive('text-yellow', function(element, binding){
+            // 对于自定义指令来说，函数体中的this是window，不是vue实例
+            element.value = binding.value
+            element.style.color = 'red'
+        })
+
+        // 对象式
+        Vue.directive('bind-blue', {
+            bind(element, binding){
+                element.innerText = binding.value
+            },
+            inserted(element, binding){
+                element.style.color = 'skyblue'
+            },
+            update(element, binding){  
+                element.innerText = binding.value
+            }
+        })
+
+        const vm2 = new Vue({
+           el : '#app2',
+           data : {
+                name : 'yier'
+           }
+        })
+
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : '自定义指令',
+                username : 'rose',
+                name : 'yier'
+           },
+           // 配置自定义指令使用directives
+           directives : {
+                // 指令1
+                // 指令2
+                // 指令3...
+                // 关于指令的名字：1. v-不需要写 2.Vue官方建议指令的名字全部小写，如果是多个单词的话，请使用 - 进行连接
+                // 回调函数有2个参数：第一个参数就是真实的dom元素,这里就是这个div标签
+                // 第二个参数是标签与指令之间绑定关系的对象，一般取用这个对象的value，这里就是msg
+                // 这种属于函数式方式
+                'text-danger' : function(element,binding){
+                    // 函数的调用时机
+                    // 1. 标签和指令第一次绑定的时候 2. 模板被重新解析的时候
+                    // console.log(element)
+                    // console.log(binding)
+                    element.innerText = binding.value;
+                    // 设置标签的样式 .style
+                    element.style.color = 'red';
+                },
+                // 对象式
+                // 这个同样是局部指令，只能在当前的div当中使用
+                'bind-pink' : {
+                    // 这个对象三个方法的名字不能随便写
+                    // 这三个函数将来都会被自动调用
+                    // 这就是钩，特定的时间节点调用特定的函数
+
+                    // 元素与指令初次绑定的时候调用
+                    bind(element,binding){
+                        element.value = binding.value;
+                        console.log(binding)
+                    },
+                    // 元素被插入到页面的时候调用
+                    inserted(element,binding){
+                        element.parentNode.style.backgroundColor = 'pink'
+                    },
+                    // 模板重新解析的时候调用
+                    update(){
+                        element.value = binding.value;
+                    }
+                }
+           }
+        })
+    </script>
+    
+</body>
+</html>

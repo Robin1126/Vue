@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue的其它指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- v-pre是不参与vue编译，能够提高编译速度，但是不要使用在使用vue框架的标签当中 -->
+        <h1 v-pre>欢迎学习Vue框架！</h1>
+        <ul>
+            <!-- 只编译一次，成为静态对象 -->
+            <li v-for="user,index in users" :key="index" v-once>
+               The uername is {{user}}.
+            </li>
+        </ul>
+        <br>
+        <ul>
+            <li v-for="user,index in users" :key="index">
+               The uername is {{user}}.
+            </li>
+        </ul>
+    </div>
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : 'Vue的其它指令',
+                users : ['jack','lucy','mike']
+           }
+        })
+    </script>
+    
+</body>
+</html>

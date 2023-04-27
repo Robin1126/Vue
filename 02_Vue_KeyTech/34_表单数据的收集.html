@@ -44,6 +44,7 @@
             <textarea cols="50" rows="15" v-model.lazy="user.introduce"></textarea><br><br>
             <input type="checkbox" v-model="user.accept">阅读并接受协议<br><br>
             <!-- prevent可以阻止默认行为 -->
+            <!-- 如果不加prevent，那么默认会刷新页面 -->
             <button @click.prevent="send">注册</button>
         </form>
     </div>

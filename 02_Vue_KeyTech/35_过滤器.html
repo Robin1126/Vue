@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>filters的使用</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        需求：从服务器返回一个商品的price，这个price可以是数字，null，undefined，''
+        要求：如果不是数字，就统一输出 - 如果是数字就直接输出
+        如果不用过滤器，其实用computed属性也能实现，但是就太冗余了
+        在vue3当中，已经将过滤器语法废弃了，白学！
+     -->
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <h2>价格是：{{formatPrice}}</h2>
+        <!-- 方法的调用要使用括号，上面因为是属性，所以不需要使用括号 -->
+        <h2>价格是：{{formatPrice2()}}</h2>
+        <!-- 通过管道，将price传给过滤器filterA -->
+        <!-- 过滤器可以串联起来 -->
+        <h2>商品价格是：{{price | filterA | filterB(3)}}</h2>
+        <!-- 可以使用在v-bind当中进行单向绑定,但是v-model是不允许用的 -->
+        <input type="text" :value="price | filterA | filterB(4)">
+    </div>
+
+    <div id="app2">
+        <input type="text" :value="price | filter1 | filter2(2)">
+    </div>
+    <script>
+        // 配置全局过滤器,Vue.filter('filter名字'，function(参数){...})
+        Vue.filter('filter1',function(val){
+            if(val === null || val === undefined || val === ''){
+                return '-'
+            }
+            return val
+        })
+
+        Vue.filter('filter2', function(val, number){
+            return val.toFixed(number)
+        })
+
+        const vm2 = new Vue({
+           el : '#app2',
+           data : {
+                price : 20
+           }
+        })
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '过滤器',
+                price: 60,
+            },
+            // 这里要写成methods
+            methods : {
+                formatPrice2(){
+                    if(this.price === '' || this.price === null || this.price === undefined){
+                        return '-'
+                    }
+                    return this.price;
+                }
+            },
+            //    先尝试使用computed来解决问题
+            computed: {
+                // 注意：这里是一个属性，不是函数，简写成了get方法
+                formatPrice() {
+                    if (this.price === '' | this.price === undefined | this.price === null) {
+                        // 如果是上面的三种情况，就输出 -
+                        return '-'
+                    }
+                    return this.price;
+                }
+            },
+            // 使用过滤器如何实现
+            filters : {
+                // 这是局部过滤器
+                // val接收管道传来的数据
+                filterA(val){
+                    // console.log('@', val)
+                    // 过滤器必须返回一个结果
+                    if(val === null || val === '' || val === undefined) {
+                        return '-'
+                    }
+                    return val
+                },
+                // 保留两位小数，使用toFixed(num)方法来定义小数的位数
+                // toFixed前面的val是要数字
+                // filter函数的第一个位置，永远都是前面传过来的参数，不需要写，自动生成
+                filterB(val,number){
+                    return val.toFixed(number)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

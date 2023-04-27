@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue其它指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 
+            v-text 指令：
+                可以将指令的内容拿出来填充岛标签体当中，和JS的innerText一样
+                这种填充是以覆盖的形式进行的，先清空标签体当中的文本，再填充新的内容
+                但是一般不用，而且也不会解析执行html语句，而是直接当成字符串展示
+         -->
+         <h1 v-text="msg"></h1>
+         <h1 v-text="name"></h1>
+
+         <!-- 
+            v-html指令：
+                和v-text一样，也是填充到标签体，但是它是innerHTML的形式
+                只不过v-html会将内容当作一端html代码来执行
+                少用，因为会导致xss攻击，黑客恶意输入一段js代码，让浏览器执行，尽量不要用在用户提交的地方，防止执行恶意程序
+                document.cookie可以获取浏览器的cookie从而发送到别的服务器上面
+          -->
+          <!-- ul列表 -->
+          <ul>
+            <li v-for="m,index in messageList" :key ='index' v-html="m"></li>
+          </ul>
+          <textarea cols="30" rows="10" v-model.lazy="message"></textarea>
+          <br><br>
+          <button @click="save">保存留言</button>
+    
+    </div>
+     <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : 'Vue的其它指令',
+                name : 'jack',
+                message : '',
+                messageList : []
+           },
+           methods : {
+            save(){
+                this.messageList.push(this.message);
+                this.message = ''
+            }
+           }
+        })
+     </script>
+    
+</body>
+</html>

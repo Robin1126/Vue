@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式与数据劫持</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <div>
+            姓名：{{name}} <br>
+            年龄：{{age}}岁
+        </div>
+    </div>
+    <script>
+        // vue中的数据是响应式，后台改变数据的值，那么网页上的数据也会变化。这是通过数据劫持实现的
+        // set就是数据劫持，get就是数据代理
+        // 在vue当中，当vue实例中的属性的值是...的，并且有响应的getter和setter方法的，都做了数据劫持
+        // vue会给它所有的属性，以及属性中的属性会添加数据劫持
+        
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : '响应式与数据劫持',
+                name : 'jackson',
+                age : 20,
+                a : {
+                    b : 1
+                }
+           }
+        })
+        // 测试，后期添加的属性会有数据劫持吗？
+        // 目前来看并没有响应式处理
+        // vm.$data.a.email = 'robin@gmail.com'
+
+        // 给后期添加响应式处理 格式： Vue.set(目标对象，属性，属性值)
+        Vue.set(vm.$data.a,'email','robin@126.com')
+        // 同样可以写成vm.a,利用数据代理
+        // 或者调用 vm.$set(vm.a,'email','robin@126.com')
+
+        // 注意！不能直接给vm和data追加响应式，只能在vm或者data当中声明，就是只能给子属性追加
+    </script>
+    
+</body>
+</html>

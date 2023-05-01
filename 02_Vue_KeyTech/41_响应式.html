@@ -5,20 +5,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>响应式</title>
+    <title>数组的响应式处理</title>
     <script src="../js/vue.js"></script>
 </head>
 
 <body>
+    <!-- 
+        通过数组的下标去修改元素，会有响应式处理吗？
+        1.通过数组的下标是没有响应式处理的，在默认情况下
+            如何解决
+            vm.$set(数组对象，下标，值)
+            Vue.set(数组对象，下标，值)
+
+            调用Vue提供的API也可以,使用在数组当中
+            1. push() 2.pop() 3.reverse()数组反转 4.splice()修改某个元素 5.shift()去掉第一个元素 6.unshift()添加第一个元素 
+            7.sort() 按字典排序
+
+            splice(index,len,[item])修改成为item，从index开始，长度为len
+            
+        2. 但是元素中的key是有响应式处理的，比如直接修改下面的对应的vip数组中的元素属性
+        
+ -->
     <div id="app">
         <h1>{{msg}}</h1>
+        <ul>
+            <li v-for="user in users" :key="user.index">
+                用户名：{{user}}
+            </li>
+
+            <li v-for="vip in vips" :key="vip.id">
+                id: {{vip.id}} name:{{vip.name}}
+            </li>
+        </ul>
     </div>
 
     <script>
         const vm = new Vue({
             el: '#app',
             data: {
-                msg : '相应式'
+                msg: '数组的响应式处理',
+                users: ['rose', 'jack', 'twitter'],
+                vips : [
+                    {id:'111', name:'zhangsan'},
+                    {id:'222', name:'lisi'}
+                ]
             }
         })
     </script>

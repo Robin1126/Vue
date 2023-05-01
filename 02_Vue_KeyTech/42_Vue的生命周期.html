@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue的生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+    </div>
+<!-- 
+    在生命线上的函数叫做钩子函数，是不需要程序员调用的，到了关键的时间点，vue会自动调用，程序员只要了解生命周期
+    比如在vm对象销毁的时候，会自动调用beforeDestory函数，程序员只要往里面写命令就行了
+
+    一共有4个阶段，8个钩子函数
+
+    初始阶段：虚拟dom搞出来
+    挂载阶段：将虚拟dom放到页面当中
+    更新阶段：data发生了变化，页面重新渲染
+    销毁阶段：把vm对象干掉，$vm.destory()来强制销毁
+    
+    一个阶段有两个钩子，一个beforexxx() 一个xxxed()
+    beforeCreate beforeMount beforeUpdate beforeDestroy
+    created     mounted     updated     destroyed
+ -->
+    <script>
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : "Vue对象的生命周期"
+           },
+           // 初始阶段
+           // 挂载阶段
+           // 更新阶段
+           // 销毁阶段
+        })
+    </script>
+    
+</body>
+</html>

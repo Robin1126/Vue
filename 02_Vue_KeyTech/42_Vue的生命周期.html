@@ -10,6 +10,9 @@
 <body>
     <div id="app">
         <h1>{{msg}}</h1>
+        <h3>计数器:{{counter}}</h3>
+        <button @click="add">点我+1</button>
+        <button @click="destroy">点我销毁</button>
     </div>
 <!-- 
     在生命线上的函数叫做钩子函数，是不需要程序员调用的，到了关键的时间点，vue会自动调用，程序员只要了解生命周期
@@ -30,12 +33,48 @@
         const vm = new Vue({
            el : '#app',
            data : {
-                msg : "Vue对象的生命周期"
+                msg : "Vue对象的生命周期",
+                counter : 1
+
+           },
+           methods : {
+                add(){
+                    this.counter++
+                },
+                destroy(){
+                    // 销毁vm
+                    this.$destroy();
+                }
            },
            // 初始阶段
+           beforeCreate() {
+                console.log('beforeCreate')
+           },
+           created() {
+            console.log('created')
+           },
            // 挂载阶段
+           beforeMount(){
+            console.log('beforeMount')
+           },
+           mounted(){
+            console.log(' mounted')
+           },
            // 更新阶段
+           beforeUpdate(){
+            console.log('beforeUpdate')
+           },
+           updated(){
+            console.log('updated')
+           },
            // 销毁阶段
+           // 需要$vm.destroy()
+           beforeDestroy(){
+            console.log('beforeDestroy')
+           },
+           destroyed(){
+            console.log('destroyed')
+           }
         })
     </script>
     

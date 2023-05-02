@@ -48,12 +48,21 @@
            },
            // 初始阶段
            beforeCreate() {
+                // 创建前：数据代理和数据检测的创建前
+                // 此时还无法访问data当中的数据，methods也无法访问
                 console.log('beforeCreate')
            },
            created() {
+            // 可以访问data和methods中的数据
             console.log('created')
+            // debugger 语句可以用来debug让程序暂时中止
            },
            // 挂载阶段
+           // 有el和template配置项，走template编译函数
+           // el有，template没有，走el模板语句
+           // el没有，调用vm.$mount(el)进行手动挂载，然后同样看有无template跟上面的两种情况一样
+           // 一开始必须要有el才行，如果不存在，就是要手动挂载el 使用vm.$mount(el)
+           // el和template同时存在先执行template
            beforeMount(){
             console.log('beforeMount')
            },

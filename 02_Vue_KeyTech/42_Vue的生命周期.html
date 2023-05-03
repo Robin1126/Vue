@@ -66,9 +66,13 @@
            beforeMount(){
             console.log('beforeMount')
            },
+           // 生成真实的dom，在这之前改动dom是会被替代的
            mounted(){
-            console.log(' mounted')
+            console.log('mounted')
+            console.log(this.$el)
+            console.log(this.$el instanceof HTMLElement)
            },
+           // 到这里为止，dom就完成了，而且没有使用diff算法来劫持数据
            // 更新阶段
            beforeUpdate(){
             console.log('beforeUpdate')

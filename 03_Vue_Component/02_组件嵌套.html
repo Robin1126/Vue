@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件嵌套</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 使用组件 -->
+        <app></app>
+    </div>
+    <script>
+        // 组件的创建放在最开始，否则从上到下运行的时候，挂载不了，因为没有新创建组件
+          // x子组件,挂载到comp组件上面，对应的标签名写在comp的template标签当中，在哪里注册，在哪里使用
+          // 注册组件的时候，如果组件名和注册时候的变量名字一致，只用写一个
+          // 比如 components : {x : x} 可以写成 components : {x}
+          const x = {
+            template : `
+                <div>
+                    <h2>x组件</h2>
+                </div>
+            `
+        }
+        // 1. 创建组件
+        const comp = {
+            template : `
+                <div>
+                    <h1>App组件</h1>
+                    <compx></compx>
+                </div>
+            `,
+            // 注册x组件
+            components : {
+                compx : x
+            }
+        }
+
+      
+        
+        const vm = new Vue({
+           el : '#root',
+           // 2. 注册组件
+           components : {
+                app : comp
+           }
+        })
+    </script>
+</body>
+</html>

@@ -46,6 +46,11 @@
                     this.$destroy();
                 }
            },
+           watch : {
+            counter(){
+                console.log('counter被监视一次！')
+            }
+           },
            // 初始阶段
            beforeCreate() {
                 // 创建前：数据代理和数据检测的创建前
@@ -63,6 +68,7 @@
            // el没有，调用vm.$mount(el)进行手动挂载，然后同样看有无template跟上面的两种情况一样
            // 一开始必须要有el才行，如果不存在，就是要手动挂载el 使用vm.$mount(el)
            // el和template同时存在先执行template
+           // template不是页面上的标签，是在vm对象中的，用来执行一段html语句
            beforeMount(){
             console.log('beforeMount')
            },
@@ -74,19 +80,30 @@
            },
            // 到这里为止，dom就完成了，而且没有使用diff算法来劫持数据
            // 更新阶段
+           // diff算法发现data改变了，但是没有渲染
+           // beforeUpdate可以用来手动修改一些事件监听器
            beforeUpdate(){
             console.log('beforeUpdate')
            },
+           // 页面中的元素和data中改变的一致，也就是进行了渲染
            updated(){
             console.log('updated')
            },
            // 销毁阶段
+           // 销毁是叫做将绑定vm的各种监听，高版本的vue的所有事件监听器等解绑，并不是真正删除释放vm对象
+           // 销毁之后，事件也不能使用了
            // 需要$vm.destroy()
            beforeDestroy(){
             console.log('beforeDestroy')
+            console.log(this)
+            // 虽然卸载之前事件的绑定关系还在，但是修改data不能使用watch，也不会更新页面了
+            // 如果使用react框架，是没有destroyed的
+            this.counter = 1000
            },
+           // 可以通过看vm对象中watch的active属性看到监视器是否被卸载
            destroyed(){
             console.log('destroyed')
+            console.log(this)
            }
         })
     </script>

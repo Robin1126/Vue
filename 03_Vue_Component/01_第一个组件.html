@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,31 +8,80 @@
     <title>第一个组件</title>
     <script src="../js/vue.js"></script>
 </head>
+
 <body>
     <div id="app">
         <h1>{{msg}}</h1>
-        <!-- 使用传统方式开发 -->
+        <!-- 3. 使用组件 -->
+        <userlist></userlist>
+        <!-- 
+            使用传统方式开发 
+            分成3步：
+                1. 创建组件（结构html 交互js 样式css）
+                    创建组件的时候，配置项不能使用el，因为组件不是为了某一个容器服务的，需要有一般性
+                    不使用el配置项，使用template配置项来配置模板
+                    组件中的数据data不能让多个部件来共享，不然更新一个数据，另外的组件的内容也会更新
+                    如果定义成函数就不会放生这种问题，防止数据共享，因此data中的必须写成function
+                2. 注册组件
+                    局部注册：
+                        在配置项当中使用components 语法格式：
+                            components : {
+                                组件的名字 ：组件对象
+                            }
+                3. 使用组件
+        -->
         <ul>
             <li v-for="user in users" :key="user.id">
-                 {{user.id}},{{user.name}}
+                {{user.id}},{{user.name}}
             </li>
         </ul>
     </div>
 
     <script>
-        const vm = new Vue({
-           el : '#app',
-           data : {
-                msg : "第一个组件",
-                users : [
-                    {id:'001',name:'bubu'},
-                    {id:'002',name:'yier'},
-                    {id:'003',name:'lbb'},
-                    {id:'004',name:'zky'}
-                ]
-           }
+        // 1. 创建组件，类似vue实例的创建
+        const myComponent = Vue.extend({
+            // el配置项不能
+            // el : "#app",
+            template: `
+            <ul>
+                <li v-for="user in users" :key="user.id">
+                    {{user.id}},{{user.name}}
+                </li>
+            </ul>
+            `,
+            data: function () {
+                return {
+                    users: [
+                        { id: '001', name: 'bubu' },
+                        { id: '002', name: 'yier' },
+                        { id: '003', name: 'lbb' },
+                        { id: '004', name: 'zky' }
+                    ]
+                }
+
+            }
         })
+
+        // 创建vm对象
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: "第一个组件",
+                users: [
+                    { id: '001', name: 'bubu' },
+                    { id: '002', name: 'yier' },
+                    { id: '003', name: 'lbb' },
+                    { id: '004', name: 'zky' }
+                ]
+            },
+            // 2. 注册组件 局部注册
+            components : {
+                userlist : myComponent
+            }
+        })
+
     </script>
-    
+
 </body>
+
 </html>

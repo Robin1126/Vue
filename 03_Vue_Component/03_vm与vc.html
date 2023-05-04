@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vm与vc</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 使用组件 -->
+        <user></user>
+        <!-- vue在检测到标签的时候，会调用user构造函数方法创建一个VueComponent实例对象 -->
+    </div>
+
+    <script>
+        // vm的this是vue实例，vc的this是VueComponent
+        // vm和vc的data不一样，vc没有el，vm有el
+        // 可以这么说 vm中有的配置项是vc没有的，但vc中的有的vm都有
+        // 创建组件
+        const user = Vue.extend({
+            // 每次使用vc，user都是一个全新的构造函数 VueComponent构造函数，你引用一次user，就会调用构造函数新建一个vc
+            // 可以使用一个变量 let a = user 来创建vc实例
+            template : `
+                <div>
+                    <h1>user组件</h1>
+                </div>
+            `,
+            mounted(){
+                console.log('vc', this)
+            }
+        })
+        // vm是viewmodel的意思
+        const vm = new Vue({
+           el : '#app',
+           data : {
+                msg : 'vm与vc'
+           },
+           // 挂载
+           components : {
+            user : user
+           },
+           // 钩子函数，完成渲染时候执行
+           mounted(){
+                console.log('vm',this)
+           }
+
+        })
+    </script>
+</body>
+</html>

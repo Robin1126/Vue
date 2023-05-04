@@ -14,6 +14,9 @@
         <h1>{{msg}}</h1>
         <!-- 3. 使用组件 -->
         <userlist></userlist>
+        <userlogin></userlogin>
+        <test></test>
+        
         <!-- 
             使用传统方式开发 
             分成3步：
@@ -23,21 +26,68 @@
                     组件中的数据data不能让多个部件来共享，不然更新一个数据，另外的组件的内容也会更新
                     如果定义成函数就不会放生这种问题，防止数据共享，因此data中的必须写成function
                 2. 注册组件
-                    局部注册：
+                    局部注册：只能在接管的地方中使用
                         在配置项当中使用components 语法格式：
                             components : {
                                 组件的名字 ：组件对象
                             }
+                    全局注册：可以在全局使用组件，不必挂载到对应的vm对象当中才使用
+                            Vue.component('组件的名字'，组件的对象)
                 3. 使用组件
+
+                小细节：
+                    1. <userlogin/>支持自闭合标签，但是只能在脚手架环境当中使用
+                    2. Vue.extend可以省略 可以直接使用{...}来写，在注册component的时候，会自动调用extend
+                    3. 组件的名字
+                            1. 全部小写
+                            2. 首字母大写，其他小写
+                            3. kebab-case命名法，user-login 串式命名法
+                            4. CameCase命名法 驼峰式命名法 UserLogin 但是这种方式只能在脚手架环境当中使用
+                    4. 不要使用html内置的标签作为组件的名字，比如form input这种
+                     创建组件的时候，可以通过一个name的配置项来配置Vue开发者工具中显示的组件名字
+                     并不是！修改了真正的组件名字！真正的组件名字还是在component或者vm对象的components当中配置的
         -->
-        <ul>
+        <!-- <ul>
             <li v-for="user in users" :key="user.id">
                 {{user.id}},{{user.name}}
             </li>
-        </ul>
+        </ul> -->
+
+
+    </div>
+
+    <div id="app2">
+        <!-- 调用组件之前，元素必须先用vue进行接管 -->
+        <test></test>
+        <Helloworld></Helloworld>
+        <!-- 使用Test命名也可以，hello-test可以，但是HelloWorld不行 -->
     </div>
 
     <script>
+        // 创建组件测试名字
+        const abc = {
+            template : `<h1>测试组件名字</h1>`
+        }
+
+        // 全局注册组件
+        Vue.component('test' ,abc)
+
+        // 2合1写法,注意先不要使用驼峰，因为不在脚手架框架里面
+        Vue.component('Helloworld', {
+            // name : 'Xxxx' 来设定组件的名字
+            template : `<h1>测试组件的名字？？？</h1>`
+        })
+
+        const vm1 = new Vue({
+           el : '#app2',
+           data : {
+           }
+        })
+
+
+
+        // 全局注册
+        // Vue.component('userlogin1',userLoginComponent)
         // 1. 创建组件，类似vue实例的创建
         const myComponent = Vue.extend({
             // el配置项不能
@@ -58,7 +108,30 @@
                         { id: '004', name: 'zky' }
                     ]
                 }
+            }
+        })
 
+        const userLoginComponent = Vue.extend({
+            // template里面必须有根标签
+            template: `
+            <div>
+            <form @submit.prevent="login">
+                用户名：<input type="text" v-model="username"><br>
+                密码：<input type="password" v-model="password"><br>
+                <button>登录</button>
+            </form>
+            </div>
+            `,
+            data() {
+                return {
+                    username : '',
+                    password : ''
+                }
+            },
+            methods : {
+                login(){
+                    alert(this.username + ',' + this.password)
+                }
             }
         })
 
@@ -75,8 +148,9 @@
                 ]
             },
             // 2. 注册组件 局部注册
-            components : {
-                userlist : myComponent
+            components: {
+                userlist: myComponent,
+                userlogin : userLoginComponent
             }
         })
 

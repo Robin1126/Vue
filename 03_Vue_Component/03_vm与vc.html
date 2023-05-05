@@ -12,7 +12,7 @@
         <h1>{{msg}}</h1>
         <!-- 使用组件 -->
         <user></user>
-        <!-- vue在检测到标签的时候，会调用user构造函数方法创建一个VueComponent实例对象 -->
+        <!-- vue在检测到标签的时候，会创建一个VueComponent实例对象 -->
     </div>
 
     <script>
@@ -48,6 +48,44 @@
            }
 
         })
+
+        // 回顾 prototype 和 _proto_
+        // 构造函数（函数本身又是一种类型，代表Vip类型）
+        function Vip(){}
+
+        // vip类型/vip构造函数，有一个prototype属性，这个prototype属性可以称为：显式的原型属性
+        // 通过这个prototype属性可以获取什么呢？获取原型对象
+        // 这是通过例来获取的
+        let x = Vip.prototype
+
+        // 通过vip可以创建实例
+
+        let a = new Vip()
+        /* let b = new Vip()
+        let c = new Vip() */
+        // 对于实例来说，都有一个隐式的原型属性： _proto_
+        // 显示和隐式的区分就是显示的是可以使用的，隐式的是不建议程序员使用的
+        // 这样也是可以获得原型对象的，这是通过实例来获取的
+        // __proto__是双下划线
+        let y = a.__proto__
+        /* b._proto_
+        c._proto_ */
+       
+        // 原型对象只有一个，其实原型对象是共享的
+        // 通过类的prototye和实例的__proto__获取的原型对象是一样的
+        console.log(x === y)
+
+        // 给Vip的原型对象扩展属性
+        // 注意vm.msg和vm.__proto__.msg不是一个东西，后者是原型对象上的属性
+        // 谁急原型对象的目的是为了代码复用，原型对象上的属性，vc就不用再写一遍了
+        Vip.prototype.counter = 1000
+        // 通过a实例可以访问扩展的属性吗？
+        // 可以，先找a实例上的属性，找不到就去沿着_proto_这个原型对象去找
+
+        // VueComponent.prototype.__proto__ = Vue.prototype
+        // 同样vc.__proto__.__proto__ = Vue.prototype vm和vc就通过原型对象链接起来了
+        console.log(a.counter)
+        console.log(a.__proto__.counter)
     </script>
 </body>
 </html>

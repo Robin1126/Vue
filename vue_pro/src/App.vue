@@ -9,6 +9,7 @@
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
+  // 设置Vue开发者工具中的组件名
   name: 'App',
   components: {
     HelloWorld

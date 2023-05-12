@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>App组件</h1>
+        <!-- 多层挂件 -->
         <X></X>
         <Y></Y>
     </div>

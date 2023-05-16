@@ -1,16 +1,14 @@
 <template>
     <div>
         <h1>App组件</h1>
-        <X></X>
-        <Y></Y>
+        <Car>汽车</Car>
     </div>
    
 </template>
 
 <script>
-import X from './components/X.vue'
-import Y from './components/Y.vue'
+import Car from './components/Car.vue'
 export default {
-    components : {X, Y}
+    components : {Car}
 }
 </script>

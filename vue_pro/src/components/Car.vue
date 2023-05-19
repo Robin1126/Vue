@@ -29,7 +29,7 @@ export default {
         }
     } */
     
-    // 接受从父组件中传过来的参数,实现动态传参
+    // 接受从父组件中传过来的参数,实现动态传参，不再局限写死的方式
 
     // 第一种接收方式：采用数组接收
     // props : ['brand','color','price']
@@ -39,6 +39,7 @@ export default {
         brand : String,
         color : String,
         price : Number // 要传入数字
+        
     } */
 
     // 第三种接收方式：添加限定格式，默认值，添加必要性

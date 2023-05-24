@@ -67,4 +67,5 @@ export default {
 }
 // 继续vue
 // test
+// 休息一日
 </script>
